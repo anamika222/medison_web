@@ -10,8 +10,14 @@ services:
       MYSQL_USER: medison_user
       MYSQL_PASSWORD: medison_password
       MYSQL_ROOT_PASSWORD: root_password
-    ports:
-      - "3306:3306"
+    # Local-e debug korar jonno port open rakhben, Production VPS-e eita comment out kora security-r jonno bhalo
+    # ports:
+    #   - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot_password"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
     volumes:
       - mysql_data:/var/lib/mysql
 
@@ -20,38 +26,47 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: medison_backend
+    restart: always
     volumes:
-      - ./backend:/app
       - static_volume:/app/staticfiles
+      - media_volume:/app/media
     expose:
       - "8000"
     environment:
-      - DEBUG=1
+      - DEBUG=0
+      - DATABASE_HOST=db
+      - DATABASE_PORT=3306
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile.prod
     container_name: medison_frontend
+    restart: always
     expose:
       - "80"
 
   nginx:
     build:
       context: ./nginx
-    image: nginx:alpine
+      dockerfile: Dockerfile
     container_name: medison_nginx
+    restart: always
     ports:
       - "80:80"
+      - "443:443"  # SSL HTTPS-er jonno (Jodi Certbot/SSL add karen)
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       - static_volume:/app/staticfiles
+      - media_volume:/app/media
     depends_on:
       - backend
       - frontend
 
 volumes:
   static_volume:
+  media_volume:
   mysql_data:
