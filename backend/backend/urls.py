@@ -20,11 +20,14 @@ from django.urls import path, include
 # Media file (Image) URL-এ সরাসরি দেখানোর জন্য
 from django.conf import settings
 from django.conf.urls.static import static
+from graphviz import render
 
 # আপনার তৈরি করা ভিউ টি সরাসরি ইম্পোর্ট করতে চাইলে (বিকল্প-১):
 from hospital.views import AboutPageDataAPIView  # 'your_app_name' এর জায়গায় আপনার অ্যাপের নাম লিখুন
-
+def home_view(request):
+    return render(request, 'index.html')
 urlpatterns = [
+    path('', home_view, name='home'),
     path('admin/', admin.site.urls),
     
     # About Us API Endpoint
