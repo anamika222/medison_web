@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: medison_mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: medison_db
+      MYSQL_USER: medison_user
+      MYSQL_PASSWORD: medison_password
+      MYSQL_ROOT_PASSWORD: root_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: medison_backend
+    volumes:
+      - ./backend:/app
+      - static_volume:/app/staticfiles
+    expose:
+      - "8000"
+    environment:
+      - DEBUG=1
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    container_name: medison_frontend
+    expose:
+      - "80"
+
+  nginx:
+    build:
+      context: ./nginx
+    image: nginx:alpine
+    container_name: medison_nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - static_volume:/app/staticfiles
+    depends_on:
+      - backend
+      - frontend
+
+volumes:
+  static_volume:
+  mysql_data:

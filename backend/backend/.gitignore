@@ -1,0 +1,22 @@
+# Python / Django
+*.pyc
+__pycache__/
+*.sqldb
+db.sqlite3
+media/
+staticfiles/
+venv/
+.env
+
+# Environment / IDEs
+.vscode/
+.idea/
+*.log
+*.mp4
+*.mkv
+*.avi
+*.mov
+*.zip
+backend/media/
+
+node_modules/
