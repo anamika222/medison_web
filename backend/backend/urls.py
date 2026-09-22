@@ -20,7 +20,7 @@ from django.urls import path, include
 # Media file (Image) URL-এ সরাসরি দেখানোর জন্য
 from django.conf import settings
 from django.conf.urls.static import static
-from graphviz import render
+from django.shortcuts import render
 
 # আপনার তৈরি করা ভিউ টি সরাসরি ইম্পোর্ট করতে চাইলে (বিকল্প-১):
 from hospital.views import AboutPageDataAPIView  # 'your_app_name' এর জায়গায় আপনার অ্যাপের নাম লিখুন
