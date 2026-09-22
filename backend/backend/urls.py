@@ -31,7 +31,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     
     # About Us API Endpoint
-    path('api/', include('hospital.urls')),
+    #path('api/', include('hospital.urls')),
 
     # অথবা যদি আপনার অ্যাপে আলাদা urls.py থাকে তবে নিচের মত include করতে পারেন (বিকল্প-২):
     # path('api/', include('your_app_name.urls')),
