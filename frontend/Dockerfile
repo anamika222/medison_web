@@ -8,10 +8,10 @@ RUN npm run build
 
 # Stage 2: Serve with Nginx
 FROM nginx:alpine
-COPY --from=build /app/dist /usr/share/nginx/html
-# Vite use korle `/dist` abong create-react-app use korle `/build` diben
+# react-scripts Build output folder is 'build'
+COPY --from=build /app/build /usr/share/nginx/html
 
-# Custom Nginx configuration copy kora (React Routing-er issue fix korar jonno)
+# Custom Nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
