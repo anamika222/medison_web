@@ -6,6 +6,13 @@ ENV PYTHONUNBUFFERED 1
 
 WORKDIR /app
 
+# mysqlclient ও C compiler dependencies ইনস্টল
+RUN apt-get update && apt-get install -y \
+    gcc \
+    pkg-config \
+    default-libmysqlclient-dev \
+    && rm -rf /var/lib/apt/lists/*
+
 # Dependencies install
 COPY requirements.txt /app/
 RUN pip install --upgrade pip && pip install -r requirements.txt
@@ -13,10 +20,10 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 # Source code copy
 COPY . /app/
 
-# Static files collect kora (Production-er jonno)
+# Static files collect
 RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
 
-# Gunicorn wsgi server die run kora
+# Gunicorn wsgi server
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "backend.wsgi:application"]
