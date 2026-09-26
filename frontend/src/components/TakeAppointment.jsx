@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { 
   FaUserMd, 
   FaCalendarAlt, 
@@ -12,63 +13,72 @@ import {
   FaShieldAlt,
   FaArrowRight,
   FaArrowLeft,
-  FaStethoscope,
-  FaRupeeSign
+  FaStethoscope
 } from 'react-icons/fa';
 
-// ডামি ডাক্তারদের ডাটাবেস (প্রয়োজনে API দিয়ে রিপ্লেস করতে পারেন)
+// বহুভাষিক ডাক্তারদের ডাটাবেস
 const DOCTORS_DATA = [
   {
     id: 1,
-    name: 'ডাঃ মো: আব্দুর রহমান',
-    degree: 'MBBS, FCPS (Cardiology)',
-    specialty: 'Cardiology (হৃদরোগ বিশেষজ্ঞ)',
-    experience: '১২+ বছর অভিজ্ঞতা',
-    fee: '৮০০ টাকা',
+    name: { bn: 'ডাঃ মো: আব্দুর রহমান', en: 'Dr. Md. Abdur Rahman' },
+    degree: { bn: 'MBBS, FCPS (Cardiology)', en: 'MBBS, FCPS (Cardiology)' },
+    specialty: { bn: 'Cardiology (হৃদরোগ বিশেষজ্ঞ)', en: 'Cardiology (Cardiologist)' },
+    experience: { bn: '১২+ বছর অভিজ্ঞতা', en: '12+ Years Experience' },
+    fee: { bn: '৮০০ টাকা', en: '800 BDT' },
     image: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=400&auto=format&fit=crop',
-    availableDays: ['Saturday', 'Sunday', 'Tuesday', 'Thursday'],
-    slots: ['০৪:০০ PM', '০৪:৩০ PM', '০৫:০০ PM', '০৫:৩০ PM', '০৬:০০ PM']
+    slots: {
+      bn: ['০৪:০০ PM', '০৪:৩০ PM', '০৫:০০ PM', '০৫:৩০ PM', '০৬:০০ PM'],
+      en: ['04:00 PM', '04:30 PM', '05:00 PM', '05:30 PM', '06:00 PM']
+    }
   },
   {
     id: 2,
-    name: 'ডাঃ নাজমুন নাহার',
-    degree: 'MBBS, MD (Neurology)',
-    specialty: 'Neurology (স্নায়ুরোগ বিশেষজ্ঞ)',
-    experience: '১০+ বছর অভিজ্ঞতা',
-    fee: '১০০০ টাকা',
+    name: { bn: 'ডাঃ নাজমুন নাহার', en: 'Dr. Najmun Nahar' },
+    degree: { bn: 'MBBS, MD (Neurology)', en: 'MBBS, MD (Neurology)' },
+    specialty: { bn: 'Neurology (স্নায়ুরোগ বিশেষজ্ঞ)', en: 'Neurology (Neurologist)' },
+    experience: { bn: '১০+ বছর অভিজ্ঞতা', en: '10+ Years Experience' },
+    fee: { bn: '১০০০ টাকা', en: '1000 BDT' },
     image: 'https://images.unsplash.com/photo-1594824813566-78a0d0a28399?q=80&w=400&auto=format&fit=crop',
-    availableDays: ['Sunday', 'Monday', 'Wednesday'],
-    slots: ['০৫:০০ PM', '০৫:৩০ PM', '০৬:০০ PM', '০৭:০০ PM']
+    slots: {
+      bn: ['০৫:০০ PM', '০৫:৩০ PM', '০৬:০০ PM', '০৭:০০ PM'],
+      en: ['05:00 PM', '05:30 PM', '06:00 PM', '07:00 PM']
+    }
   },
   {
     id: 3,
-    name: 'ডাঃ সারওয়ার হোসেন',
-    degree: 'MBBS, MS (Orthopedics)',
-    specialty: 'Orthopedics (অস্থিরোগ বিশেষজ্ঞ)',
-    experience: '১৫+ বছর অভিজ্ঞতা',
-    fee: '৭০০ টাকা',
+    name: { bn: 'ডাঃ সারওয়ার হোসেন', en: 'Dr. Sarwar Hossain' },
+    degree: { bn: 'MBBS, MS (Orthopedics)', en: 'MBBS, MS (Orthopedics)' },
+    specialty: { bn: 'Orthopedics (অস্থিরোগ বিশেষজ্ঞ)', en: 'Orthopedics (Orthopedist)' },
+    experience: { bn: '১৫+ বছর অভিজ্ঞতা', en: '15+ Years Experience' },
+    fee: { bn: '৭০০ টাকা', en: '700 BDT' },
     image: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?q=80&w=400&auto=format&fit=crop',
-    availableDays: ['Saturday', 'Monday', 'Wednesday', 'Thursday'],
-    slots: ['০৬:০০ PM', '০৬:৩০ PM', '০৭:০০ PM', '০৮:০০ PM']
+    slots: {
+      bn: ['০৬:০০ PM', '০৬:৩০ PM', '০৭:০০ PM', '০৮:০০ PM'],
+      en: ['06:00 PM', '06:30 PM', '07:00 PM', '08:00 PM']
+    }
   },
   {
     id: 4,
-    name: 'ডাঃ ফারহানা ইসলাম',
-    degree: 'MBBS, FCPS (Gynecology)',
-    specialty: 'Gynecology (স্ত্রী ও প্রসূতি রোগ)',
-    experience: '৮+ বছর অভিজ্ঞতা',
-    fee: '৭০০ টাকা',
+    name: { bn: 'ডাঃ ফারহানা ইসলাম', en: 'Dr. Farhana Islam' },
+    degree: { bn: 'MBBS, FCPS (Gynecology)', en: 'MBBS, FCPS (Gynecology)' },
+    specialty: { bn: 'Gynecology (স্ত্রী ও প্রসূতি রোগ)', en: 'Gynecology (Gynecologist)' },
+    experience: { bn: '৮+ বছর অভিজ্ঞতা', en: '8+ Years Experience' },
+    fee: { bn: '৭০০ টাকা', en: '700 BDT' },
     image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=400&auto=format&fit=crop',
-    availableDays: ['Saturday', 'Tuesday', 'Wednesday'],
-    slots: ['০৩:০০ PM', '০৩:৩০ PM', '০৪:০০ PM', '০৫:০০ PM']
+    slots: {
+      bn: ['০৩:০০ PM', '০৩:৩০ PM', '০৪:০০ PM', '০৫:০০ PM'],
+      en: ['03:00 PM', '03:30 PM', '04:00 PM', '05:00 PM']
+    }
   }
 ];
 
 const TakeAppointment = () => {
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language === 'en' ? 'en' : 'bn'; // বর্তমান ভাষা চেক
+
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  // URL Query parameter থেকে doctorId গ্রহণ
   const initialDoctorId = searchParams.get('doctorId');
 
   const [step, setStep] = useState(1);
@@ -87,7 +97,6 @@ const TakeAppointment = () => {
 
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // পেজ লোড হলে URL Param অনুযায়ী ডাক্তার সিলেক্ট
   useEffect(() => {
     if (initialDoctorId) {
       const doc = DOCTORS_DATA.find(d => d.id === parseInt(initialDoctorId));
@@ -102,8 +111,8 @@ const TakeAppointment = () => {
   };
 
   const handleNextStep = () => {
-    if (step === 1 && !selectedDoctor) return alert('অনুগ্রহ করে একজন ডাক্তার নির্বাচন করুন।');
-    if (step === 2 && (!selectedDate || !selectedSlot)) return alert('অনুগ্রহ করে তারিখ এবং সময়সূচী (Slot) নির্বাচন করুন।');
+    if (step === 1 && !selectedDoctor) return alert(t('appointment.alerts.selectDoctor'));
+    if (step === 2 && (!selectedDate || !selectedSlot)) return alert(t('appointment.alerts.selectDateTime'));
     setStep(prev => prev + 1);
   };
 
@@ -116,7 +125,6 @@ const TakeAppointment = () => {
     setIsSubmitted(true);
   };
 
-  // আজকের পর থেকে পরবর্তী ৭ দিনের তারিখ তৈরি
   const getMinDate = () => new Date().toISOString().split('T')[0];
 
   return (
@@ -125,9 +133,9 @@ const TakeAppointment = () => {
       {/* Header Banner */}
       <div className="appointment-header">
         <div className="header-content">
-          <span className="sub-tag"><FaShieldAlt /> নির্ভরযোগ্য স্বাস্থ্যসেবা</span>
-          <h1>অনলাইন ডাক্তার অ্যাপয়েন্টমেন্ট</h1>
-          <p>সহজ কয়েকটি ধাপে আপনার প্রয়োজনীয় ডাক্তারের অ্যাপয়েন্টমেন্ট বুকিং করুন</p>
+          <span className="sub-tag"><FaShieldAlt /> {t('appointment.subTag')}</span>
+          <h1>{t('appointment.title')}</h1>
+          <p>{t('appointment.subtitle')}</p>
         </div>
       </div>
 
@@ -138,17 +146,17 @@ const TakeAppointment = () => {
           <div className="step-wizard">
             <div className={`wizard-step ${step >= 1 ? 'active' : ''}`}>
               <div className="step-icon"><FaUserMd /></div>
-              <span>১. ডাক্তার নির্বাচন</span>
+              <span>{t('appointment.steps.step1')}</span>
             </div>
             <div className="wizard-line"></div>
             <div className={`wizard-step ${step >= 2 ? 'active' : ''}`}>
               <div className="step-icon"><FaCalendarAlt /></div>
-              <span>২. তারিখ ও সময়</span>
+              <span>{t('appointment.steps.step2')}</span>
             </div>
             <div className="wizard-line"></div>
             <div className={`wizard-step ${step >= 3 ? 'active' : ''}`}>
               <div className="step-icon"><FaUser /></div>
-              <span>৩. রোগীর তথ্য</span>
+              <span>{t('appointment.steps.step3')}</span>
             </div>
           </div>
         )}
@@ -163,7 +171,7 @@ const TakeAppointment = () => {
               {/* STEP 1: Select Doctor */}
               {step === 1 && (
                 <div className="step-content fade-in">
-                  <h3 className="section-title"><FaStethoscope className="icon" /> ডাক্তার নির্বাচন করুন</h3>
+                  <h3 className="section-title"><FaStethoscope className="icon" /> {t('appointment.step1Title')}</h3>
                   <div className="doctors-card-grid">
                     {DOCTORS_DATA.map((doc) => (
                       <div 
@@ -171,14 +179,14 @@ const TakeAppointment = () => {
                         onClick={() => setSelectedDoctor(doc)}
                         className={`doctor-select-card ${selectedDoctor?.id === doc.id ? 'selected' : ''}`}
                       >
-                        <img src={doc.image} alt={doc.name} className="doc-avatar" />
+                        <img src={doc.image} alt={doc.name[lang]} className="doc-avatar" />
                         <div className="doc-details">
-                          <h4>{doc.name}</h4>
-                          <p className="degree">{doc.degree}</p>
-                          <span className="dept-tag">{doc.specialty}</span>
+                          <h4>{doc.name[lang]}</h4>
+                          <p className="degree">{doc.degree[lang]}</p>
+                          <span className="dept-tag">{doc.specialty[lang]}</span>
                           <div className="doc-footer-meta">
-                            <span className="exp">{doc.experience}</span>
-                            <span className="fee">ফি: {doc.fee}</span>
+                            <span className="exp">{doc.experience[lang]}</span>
+                            <span className="fee">{t('appointment.labels.feePrefix')} {doc.fee[lang]}</span>
                           </div>
                         </div>
                         <div className="radio-check">
@@ -193,17 +201,17 @@ const TakeAppointment = () => {
               {/* STEP 2: Select Date & Time Slot */}
               {step === 2 && (
                 <div className="step-content fade-in">
-                  <h3 className="section-title"><FaCalendarAlt className="icon" /> তারিখ ও সময়সূচী নির্ধারণ করুন</h3>
+                  <h3 className="section-title"><FaCalendarAlt className="icon" /> {t('appointment.step2Title')}</h3>
                   
                   <div className="date-picker-box">
-                    <label><FaCalendarAlt /> অ্যাপয়েন্টমেন্টের তারিখ:</label>
+                    <label><FaCalendarAlt /> {t('appointment.labels.appointmentDate')}</label>
                     <input 
                       type="date" 
                       min={getMinDate()}
                       value={selectedDate}
                       onChange={(e) => {
                         setSelectedDate(e.target.value);
-                        setSelectedSlot(''); // Reset slot on date change
+                        setSelectedSlot('');
                       }}
                       className="custom-date-input"
                     />
@@ -211,9 +219,9 @@ const TakeAppointment = () => {
 
                   {selectedDate && (
                     <div className="time-slots-wrapper">
-                      <label><FaClock /> খালি সময়সূচী (Available Time Slots):</label>
+                      <label><FaClock /> {t('appointment.labels.availableSlots')}</label>
                       <div className="slots-grid">
-                        {selectedDoctor?.slots.map((slot, i) => (
+                        {selectedDoctor?.slots[lang].map((slot, i) => (
                           <button
                             key={i}
                             type="button"
@@ -232,39 +240,39 @@ const TakeAppointment = () => {
               {/* STEP 3: Patient Information */}
               {step === 3 && (
                 <form onSubmit={handleSubmit} className="step-content fade-in">
-                  <h3 className="section-title"><FaNotesMedical className="icon" /> রোগীর বিবরণ দিন</h3>
+                  <h3 className="section-title"><FaNotesMedical className="icon" /> {t('appointment.step3Title')}</h3>
                   
                   <div className="input-group-grid">
                     <div className="input-field">
-                      <label><FaUser /> রোগীর নাম *</label>
+                      <label><FaUser /> {t('appointment.labels.patientName')}</label>
                       <input 
                         type="text" 
                         name="name"
                         required 
-                        placeholder="সম্পূর্ণ নাম লিখুন"
+                        placeholder={t('appointment.placeholders.patientName')}
                         value={patientInfo.name}
                         onChange={handleInputChange}
                       />
                     </div>
 
                     <div className="input-field">
-                      <label><FaPhoneAlt /> মোবাইল নম্বর *</label>
+                      <label><FaPhoneAlt /> {t('appointment.labels.mobileNumber')}</label>
                       <input 
                         type="tel" 
                         name="phone"
                         required 
-                        placeholder="017XXXXXXXX"
+                        placeholder={t('appointment.placeholders.mobileNumber')}
                         value={patientInfo.phone}
                         onChange={handleInputChange}
                       />
                     </div>
 
                     <div className="input-field">
-                      <label><FaEnvelope /> ইমেইল ঠিকানা (ঐচ্ছিক)</label>
+                      <label><FaEnvelope /> {t('appointment.labels.email')}</label>
                       <input 
                         type="email" 
                         name="email"
-                        placeholder="example@mail.com"
+                        placeholder={t('appointment.placeholders.email')}
                         value={patientInfo.email}
                         onChange={handleInputChange}
                       />
@@ -272,33 +280,33 @@ const TakeAppointment = () => {
 
                     <div className="input-field-row">
                       <div className="input-field">
-                        <label>বয়স *</label>
+                        <label>{t('appointment.labels.age')}</label>
                         <input 
                           type="number" 
                           name="age"
                           required 
-                          placeholder="বয়স"
+                          placeholder={t('appointment.placeholders.age')}
                           value={patientInfo.age}
                           onChange={handleInputChange}
                         />
                       </div>
 
                       <div className="input-field">
-                        <label>লিঙ্গ *</label>
+                        <label>{t('appointment.labels.gender')}</label>
                         <select name="gender" value={patientInfo.gender} onChange={handleInputChange}>
-                          <option value="Male">পুরুষ</option>
-                          <option value="Female">মহিলা</option>
-                          <option value="Other">অন্যান্য</option>
+                          <option value="Male">{t('appointment.genderOptions.male')}</option>
+                          <option value="Female">{t('appointment.genderOptions.female')}</option>
+                          <option value="Other">{t('appointment.genderOptions.other')}</option>
                         </select>
                       </div>
                     </div>
 
                     <div className="input-field full-width">
-                      <label><FaNotesMedical /> সমস্যার সংক্ষিপ্ত বিবরণ (ঐচ্ছিক)</label>
+                      <label><FaNotesMedical /> {t('appointment.labels.problemSummary')}</label>
                       <textarea 
                         name="problem"
                         rows="3"
-                        placeholder="আপনার শারীরিক সমস্যার কথা সংক্ষেপে লিখুন..."
+                        placeholder={t('appointment.placeholders.problemSummary')}
                         value={patientInfo.problem}
                         onChange={handleInputChange}
                       ></textarea>
@@ -307,10 +315,10 @@ const TakeAppointment = () => {
 
                   <div className="form-actions">
                     <button type="button" onClick={handlePrevStep} className="btn-secondary">
-                      <FaArrowLeft /> পেছনে যান
+                      <FaArrowLeft /> {t('appointment.buttons.prevStep')}
                     </button>
                     <button type="submit" className="btn-submit">
-                      কনফার্ম বুকিং <FaCheckCircle />
+                      {t('appointment.buttons.confirmBooking')} <FaCheckCircle />
                     </button>
                   </div>
                 </form>
@@ -321,11 +329,11 @@ const TakeAppointment = () => {
                 <div className="form-actions">
                   {step > 1 && (
                     <button type="button" onClick={handlePrevStep} className="btn-secondary">
-                      <FaArrowLeft /> পেছনে যান
+                      <FaArrowLeft /> {t('appointment.buttons.prevStep')}
                     </button>
                   )}
                   <button type="button" onClick={handleNextStep} className="btn-primary">
-                    পরবর্তী ধাপ <FaArrowRight />
+                    {t('appointment.buttons.nextStep')} <FaArrowRight />
                   </button>
                 </div>
               )}
@@ -335,36 +343,36 @@ const TakeAppointment = () => {
             {/* Right Summary Sidebar */}
             <div className="summary-panel">
               <div className="summary-card">
-                <h3>বুকিং সারসংক্ষেপ</h3>
+                <h3>{t('appointment.summary.title')}</h3>
                 <hr className="divider" />
 
                 {selectedDoctor && (
                   <div className="summary-doc">
-                    <img src={selectedDoctor.image} alt={selectedDoctor.name} />
+                    <img src={selectedDoctor.image} alt={selectedDoctor.name[lang]} />
                     <div>
-                      <h5>{selectedDoctor.name}</h5>
-                      <p>{selectedDoctor.specialty}</p>
+                      <h5>{selectedDoctor.name[lang]}</h5>
+                      <p>{selectedDoctor.specialty[lang]}</p>
                     </div>
                   </div>
                 )}
 
                 <div className="summary-details">
                   <div className="summary-row">
-                    <span>তারিখ:</span>
-                    <strong>{selectedDate || 'এখনও সিলেক্ট করা হয়নি'}</strong>
+                    <span>{t('appointment.labels.date')}</span>
+                    <strong>{selectedDate || t('appointment.summary.notSelected')}</strong>
                   </div>
                   <div className="summary-row">
-                    <span>সময়সূচী:</span>
-                    <strong>{selectedSlot || 'এখনও সিলেক্ট করা হয়নি'}</strong>
+                    <span>{t('appointment.labels.slot')}</span>
+                    <strong>{selectedSlot || t('appointment.summary.notSelected')}</strong>
                   </div>
                   <div className="summary-row">
-                    <span>পরামর্শ ফি:</span>
-                    <strong className="fee-text">{selectedDoctor?.fee}</strong>
+                    <span>{t('appointment.labels.fee')}</span>
+                    <strong className="fee-text">{selectedDoctor?.fee[lang]}</strong>
                   </div>
                 </div>
 
                 <div className="summary-footer-note">
-                  <p>🔒 আপনার তথ্য সম্পূর্ণ সুরক্ষিত থাকবে। কোনো সমস্যা হলে আমাদের হেল্পলাইনে যোগাযোগ করুন।</p>
+                  <p>{t('appointment.summary.privacyNote')}</p>
                 </div>
               </div>
             </div>
@@ -374,23 +382,23 @@ const TakeAppointment = () => {
           /* Confirmation / Success Screen */
           <div className="success-card fade-in">
             <FaCheckCircle className="success-icon" />
-            <h2>অ্যাপয়েন্টমেন্ট সফলভাবে বুক করা হয়েছে!</h2>
+            <h2>{t('appointment.success.title')}</h2>
             <p className="success-msg">
-              আপনার বুকিং রেফারেন্স আইডি: <strong>#MED-{Math.floor(100000 + Math.random() * 900000)}</strong>
+              {t('appointment.success.refId')} <strong>#MED-{Math.floor(100000 + Math.random() * 900000)}</strong>
             </p>
 
             <div className="success-details-box">
-              <p><strong>রোগীর নাম:</strong> {patientInfo.name}</p>
-              <p><strong>ডাক্তার:</strong> {selectedDoctor?.name}</p>
-              <p><strong>তারিখ ও সময়:</strong> {selectedDate} | {selectedSlot}</p>
-              <p><strong>মোবাইল:</strong> {patientInfo.phone}</p>
+              <p><strong>{t('appointment.success.patientName')}</strong> {patientInfo.name}</p>
+              <p><strong>{t('appointment.success.doctor')}</strong> {selectedDoctor?.name[lang]}</p>
+              <p><strong>{t('appointment.success.dateTime')}</strong> {selectedDate} | {selectedSlot}</p>
+              <p><strong>{t('appointment.success.mobile')}</strong> {patientInfo.phone}</p>
             </div>
 
-            <p className="sms-notice">আপনার প্রদত্ত মোবাইল নম্বরে নিশ্চিতকরণ SMS পাঠিয়ে দেওয়া হয়েছে।</p>
+            <p className="sms-notice">{t('appointment.success.smsNotice')}</p>
 
             <div className="success-actions">
               <button onClick={() => navigate('/')} className="btn-primary">
-                হোম পেজে ফিরে যান
+                {t('appointment.buttons.backToHome')}
               </button>
             </div>
           </div>
@@ -398,7 +406,7 @@ const TakeAppointment = () => {
 
       </div>
 
-      {/* Styled JSX */}
+      {/* CSS Stylesheet */}
       <style>{`
         .appointment-page-root {
           background-color: #f4f7fc;

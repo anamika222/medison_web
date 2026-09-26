@@ -155,7 +155,7 @@ const resources = {
       category: "Category",
       price_cost: "Estimated Cost",
       discount: "Discount Available",
-      Explore_All_Services: "Explore All Services", // ✅ Added here
+      Explore_All_Services: "Explore All Services",
 
       // Service Categories
       service_cat_all: "All Services",
@@ -278,7 +278,72 @@ const resources = {
       dept_physical_medicine: "Physical Medicine & Rehabilitation",
       dept_ent: "ENT (Ear, Nose & Throat)",
       dept_public_health: "Public Health & Experienced Medicine",
-      dept_ultrasound_gynecology: "Ultrasound & Gynecology"
+      dept_ultrasound_gynecology: "Ultrasound & Gynecology",
+
+      // 📅 Take Appointment Page Specific Additions (English)
+      appointment: {
+        subTag: "Reliable Healthcare",
+        title: "Online Doctor Appointment",
+        subtitle: "Book your necessary doctor appointment in a few easy steps",
+        steps: {
+          step1: "1. Select Doctor",
+          step2: "2. Date & Time",
+          step3: "3. Patient Info"
+        },
+        step1Title: "Select Doctor",
+        step2Title: "Select Date & Schedule",
+        step3Title: "Enter Patient Details",
+        labels: {
+          appointmentDate: "Appointment Date:",
+          availableSlots: "Available Slots:",
+          patientName: "Patient Name *",
+          mobileNumber: "Mobile Number *",
+          email: "Email Address (Optional)",
+          age: "Age *",
+          gender: "Gender *",
+          problemSummary: "Short Description of Problem (Optional)",
+          date: "Date:",
+          slot: "Time:",
+          fee: "Consultation Fee:",
+          feePrefix: "Fee:"
+        },
+        placeholders: {
+          patientName: "Enter full name",
+          mobileNumber: "017XXXXXXXX",
+          email: "example@mail.com",
+          age: "Age",
+          problemSummary: "Briefly describe your medical issue..."
+        },
+        genderOptions: {
+          male: "Male",
+          female: "Female",
+          other: "Other"
+        },
+        buttons: {
+          prevStep: "Previous Step",
+          nextStep: "Next Step",
+          confirmBooking: "Confirm Booking",
+          backToHome: "Back to Home"
+        },
+        summary: {
+          title: "Booking Summary",
+          notSelected: "Not Selected",
+          privacyNote: "🔒 Your information will remain completely secure. Contact helpline if you need help."
+        },
+        alerts: {
+          selectDoctor: "Please select a doctor.",
+          selectDateTime: "Please select a date and time slot."
+        },
+        success: {
+          title: "Appointment Booked Successfully!",
+          refId: "Your booking reference ID:",
+          patientName: "Patient Name:",
+          doctor: "Doctor:",
+          dateTime: "Date & Time:",
+          mobile: "Mobile:",
+          smsNotice: "A confirmation message has been sent to your mobile number."
+        }
+      }
     }
   },
   bn: {
@@ -502,7 +567,7 @@ const resources = {
       test_cat_all: "সকল টেস্ট",
       test_cat_blood: "রক্তের পরীক্ষা (Blood Tests)",
       test_cat_imaging: "এক্স-রে ও ইমেজিং",
-      test_cat_pathology: "প্যাথলজি ও বায়োকেমিস্ট্রি",
+      test_cat_pathology: "Pathology & Biochemistry",
       test_cat_biochemistry: "বায়োকেমিস্ট্রি",
       test_cat_cardiac: "কার্ডিয়াক ও ইসিজি (ECG)",
       test_cat_ultrasound: "আল্ট্রাসনোগ্রাম ও এমআরআই",
@@ -553,7 +618,72 @@ const resources = {
       dept_physical_medicine: "ফিজিক্যাল মেডিসিন ও রিহ্যাবিলিটেশন",
       dept_ent: "ইএনটি (নাক, কান, গলা)",
       dept_public_health: "জনস্বাস্থ্য ও অভিজ্ঞ মেডিসিন",
-      dept_ultrasound_gynecology: "আল্ট্রাসাউন্ড ও গাইনি"
+      dept_ultrasound_gynecology: "আল্ট্রাসাউন্ড ও গাইনি",
+
+      // 📅 Take Appointment Page Specific Additions (Bangla)
+      appointment: {
+        subTag: "নির্ভরযোগ্য স্বাস্থ্যসেবা",
+        title: "অনলাইন ডাক্তার অ্যাপয়েন্টমেন্ট",
+        subtitle: "সহজ কয়েকটি ধাপে আপনার প্রয়োজনীয় ডাক্তারের অ্যাপয়েন্টমেন্ট বুকিং করুন",
+        steps: {
+          step1: "১. ডাক্তার নির্বাচন",
+          step2: "২. তারিখ ও সময়",
+          step3: "৩. রোগীর তথ্য"
+        },
+        step1Title: "ডাক্তার নির্বাচন করুন",
+        step2Title: "তারিখ ও সময়সূচী নির্ধারণ করুন",
+        step3Title: "রোগীর বিবরণ দিন",
+        labels: {
+          appointmentDate: "অ্যাপয়েন্টমেন্টের তারিখ:",
+          availableSlots: "উপলব্ধ সময়সূচী:",
+          patientName: "রোগীর নাম *",
+          mobileNumber: "মোবাইল নম্বর *",
+          email: "ইমেইল ঠিকানা (ঐচ্ছিক)",
+          age: "বয়স *",
+          gender: "লিঙ্গ *",
+          problemSummary: "সমস্যার সংক্ষিপ্ত বিবরণ (ঐচ্ছিক)",
+          date: "তারিখ:",
+          slot: "সময়সূচী:",
+          fee: "পরামর্শ ফি:",
+          feePrefix: "ফি:"
+        },
+        placeholders: {
+          patientName: "সম্পূর্ণ নাম লিখুন",
+          mobileNumber: "017XXXXXXXX",
+          email: "example@mail.com",
+          age: "বয়স",
+          problemSummary: "আপনার শারীরিক সমস্যার কথা সংক্ষেপে লিখুন..."
+        },
+        genderOptions: {
+          male: "পুরুষ",
+          female: "নারী",
+          other: "অন্যান্য"
+        },
+        buttons: {
+          prevStep: "পূর্ববর্তী ধাপ",
+          nextStep: "পরবর্তী ধাপ",
+          confirmBooking: "বুকিং নিশ্চিত করুন",
+          backToHome: "মূল পাতায় ফিরে যান"
+        },
+        summary: {
+          title: "বুকিং সারসংক্ষেপ",
+          notSelected: "নির্বাচিত হয়নি",
+          privacyNote: "🔒 আপনার তথ্য সম্পূর্ণ সুরক্ষিত থাকবে। কোনো সাহায্যের প্রয়োজন হলে হেল্পলাইনে যোগাযোগ করুন।"
+        },
+        alerts: {
+          selectDoctor: "অনুগ্রহ করে একজন ডাক্তার নির্বাচন করুন।",
+          selectDateTime: "অনুগ্রহ করে তারিখ এবং সময়সূচী নির্বাচন করুন।"
+        },
+        success: {
+          title: "অ্যাপয়েন্টমেন্ট সফলভাবে বুক করা হয়েছে!",
+          refId: "আপনার বুকিং রেফারেন্স আইডি:",
+          patientName: "রোগীর নাম:",
+          doctor: "ডাক্তার:",
+          dateTime: "তারিখ ও সময়:",
+          mobile: "মোবাইল:",
+          smsNotice: "আপনার মোবাইল নম্বরে নিশ্চিতকরণ বার্তা পাঠানো হয়েছে।"
+        }
+      }
     }
   }
 };
