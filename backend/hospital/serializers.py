@@ -101,12 +101,30 @@ class DoctorSerializer(serializers.ModelSerializer):
 
 # Appointment Serializer
 class AppointmentSerializer(serializers.ModelSerializer):
-    doctor_name_en = serializers.CharField(source='doctor.name_en', read_only=True)
-    doctor_name_bn = serializers.CharField(source='doctor.name_bn', read_only=True)
-
     class Meta:
         model = Appointment
-        fields = '__all__'
+        fields = '__all__' # অথবা ['id', 'doctor', 'patient_name', 'patient_phone', 'patient_email', 'patient_age', 'patient_gender', 'date', 'slot', 'problem_description']
+
+    def validate(self, data):
+        """
+        রোগী যে দিন নির্বাচন করেছে, ডাক্তার সেদিন চেম্বারে বসেন কিনা তা ব্যাকএন্ডে রি-চেক করা
+        """
+        doctor = data.get('doctor')
+        appointment_date = data.get('date')
+
+        if doctor and appointment_date:
+            # তারিখ থেকে বারের নাম বের করা (e.g., 'mon', 'tue')
+            days_map = {0: 'mon', 1: 'tue', 2: 'wed', 3: 'thu', 4: 'fri', 5: 'sat', 6: 'sun'}
+            selected_day = days_map[appointment_date.weekday()]
+
+            available_days = doctor.available_days.lower() if doctor.available_days else ''
+
+            if selected_day not in available_days and 'all' not in available_days:
+                raise serializers.ValidationError({
+                    "date": f"ডাঃ {doctor.name} এই বারে চেম্বারে বসবেন না। তাঁর প্রাপ্যতা: {doctor.available_days}"
+                })
+
+        return data
 
 
 # Service Serializers

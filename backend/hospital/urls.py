@@ -31,6 +31,7 @@ urlpatterns = [
     path('doctors/<int:pk>/', DoctorDetailAPIView.as_view(), name='doctor-detail'),
     path('doctors/schedule/', get_doctors_by_day, name='doctors-by-day'), # Extra 'api/' সরানো হয়েছে
     path('appointments/', AppointmentCreateAPIView.as_view(), name='appointment-create'),
+    path('doctors/by-day/', get_doctors_by_day, name='doctors-by-day'),
 
     # Services & Service Requests APIs
     path('services/', ServiceListView.as_view(), name='service-list'),

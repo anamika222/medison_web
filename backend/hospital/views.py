@@ -1,4 +1,5 @@
 from datetime import datetime
+from random import random
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework import viewsets
@@ -320,3 +321,24 @@ def get_doctors_by_day(request):
     
     serializer = DoctorSerializer(doctors, many=True)
     return Response(serializer.data)
+
+class AppointmentCreateAPIView(generics.CreateAPIView):
+    queryset = Appointment.objects.all()
+    serializer_class = AppointmentSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        
+        # অ্যাপয়েন্টমেন্ট সেভ করা
+        appointment = serializer.save()
+
+        # একটি ইউনিক ট্র্যাকিং/বুকিং আইডি তৈরি (e.g. #MED-849302)
+        booking_id = f"#MED-{random.randint(100000, 999999)}"
+        
+        # অতিরিক্ত ডাটা যোগ করে রেসপন্স দেওয়া
+        return Response({
+            "message": "Appointment created successfully!",
+            "booking_id": booking_id,
+            "data": serializer.data
+        }, status=status.HTTP_201_CREATED)

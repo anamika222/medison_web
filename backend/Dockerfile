@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
 
 # Dependencies install
 COPY requirements.txt /app/
-RUN pip install --upgrade pip && pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Source code copy
 COPY . /app/
