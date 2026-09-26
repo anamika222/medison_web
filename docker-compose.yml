@@ -52,7 +52,7 @@ services:
     container_name: medison_nginx
     restart: always
     ports:
-      - "8080:80"
+      - "8085:80"
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       - static_volume:/app/staticfiles
