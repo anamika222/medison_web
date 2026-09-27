@@ -28,8 +28,8 @@ def home_view(request):
     return render(request, 'index.html')
 urlpatterns = [
     path('', home_view, name='home'),
-    path('admin/', admin.site.urls),
-    
+    path('medison_dashboard_management/', admin.site.urls),
+
     # About Us API Endpoint
     #path('api/', include('hospital.urls')),
 
