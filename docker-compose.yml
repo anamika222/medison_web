@@ -8,7 +8,6 @@ services:
     environment:
       MYSQL_DATABASE: medison_db
       MYSQL_USER: medison_user
-      MYSQL_PASSWORD: medison_password
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_PASSWORD}"]
