@@ -21,7 +21,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: medison_backend
+    #container_name: medison_backend
     restart: always
     volumes:
       - ./backend:/app
@@ -41,7 +41,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.prod
-    container_name: medison_frontend
+    #container_name: medison_frontend
     restart: always
     volumes:
       - react_build:/app/build
@@ -49,7 +49,7 @@ services:
 
   nginx:
     image: nginx:alpine
-    container_name: medison_nginx
+    #container_name: medison_nginx
     restart: always
     ports:
       - "8085:80"
