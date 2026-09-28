@@ -3,7 +3,7 @@ version: '3.8'
 services:
   db:
     image: mysql:8.0
-    container_name: medison_mysql
+    #container_name: medison_db
     restart: always
     environment:
       MYSQL_DATABASE: medison_db
