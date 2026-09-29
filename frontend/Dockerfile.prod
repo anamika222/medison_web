@@ -1,13 +1,21 @@
-# Stage 1: Build React
-FROM node:20-alpine as build
+# Stage 1: Build
+FROM node:20-alpine AS build
 WORKDIR /app
+
+# Build variables
+ARG REACT_APP_API_URL=/api
+ARG REACT_APP_MEDIA_URL=https://medisonpatuakhali.com
+
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
+ENV REACT_APP_MEDIA_URL=$REACT_APP_MEDIA_URL
+
 COPY package*.json ./
 RUN npm install
+
 COPY . .
 RUN npm run build
 
-# Stage 2: Share build files via volume
-FROM alpine
+# Stage 2: Serve Build
+FROM alpine:latest
 WORKDIR /app
 COPY --from=build /app/build ./build
-CMD ["tail", "-f", "/dev/null"]

@@ -13,8 +13,8 @@ import {
   FaStethoscope
 } from 'react-icons/fa';
 
+// Hardcoded IP/URL বাদ দিয়ে সরাসরি Relative Path ব্যবহার করুন
 const API_BASE_URL = process.env.REACT_APP_API_URL || "/api";
-
 // Dynamic Icon Component
 const DynamicIcon = ({ name, color, size = 28 }) => {
   const IconComponent = FaIcons[name] || FaStethoscope;
