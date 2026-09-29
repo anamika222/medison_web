@@ -3,7 +3,6 @@ version: '3.8'
 services:
   db:
     image: mysql:8.0
-    #container_name: medison_db
     restart: always
     environment:
       MYSQL_DATABASE: medison_db
@@ -21,7 +20,6 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    #container_name: medison_backend
     restart: always
     volumes:
       - ./backend:/app
@@ -41,18 +39,16 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.prod
-    #container_name: medison_frontend
     restart: always
     volumes:
       - react_build:/app/build
 
-
   nginx:
     image: nginx:alpine
-    #container_name: medison_nginx
     restart: always
+    stop_grace_period: 3s  # কন্টেইনার দ্রুত পোর্ট খালি করার জন্য
     ports:
-      - "8085:80"
+      - "8080:80"          # Port 8085 পরিবর্তন করে 8080 দেওয়া হলো
       - "443:443"
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
