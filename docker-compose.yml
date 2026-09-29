@@ -48,7 +48,7 @@ services:
     restart: always
     stop_grace_period: 3s  # কন্টেইনার দ্রুত পোর্ট খালি করার জন্য
     ports:
-      - "8080:80"          # Port 8085 পরিবর্তন করে 8080 দেওয়া হলো
+      - "8088:80"          # Port 8085 পরিবর্তন করে 8080 দেওয়া হলো
       - "443:443"
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
