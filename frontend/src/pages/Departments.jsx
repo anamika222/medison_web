@@ -13,7 +13,7 @@ import {
   FaStethoscope
 } from 'react-icons/fa';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://127.0.0.1:8000/api";
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "/api";
 
 // Dynamic Icon Component
 const DynamicIcon = ({ name, color, size = 28 }) => {
