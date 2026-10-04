@@ -63,8 +63,17 @@ services:
     depends_on:
       - backend
       - frontend
-    labels:
-      ... (Traefik label gulo jemon ache temni thakbe)
     networks:
       - dokploy-network
-      - default
+      - medison-network
+
+volumes:
+  static_volume:
+  media_volume:
+  mysql_data:
+  react_build:
+
+networks:
+  medison-network:
+  dokploy-network:
+    external: true
