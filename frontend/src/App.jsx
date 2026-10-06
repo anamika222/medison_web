@@ -12,7 +12,7 @@ import Doctors from './pages/Doctors';
 import Tests from './pages/Tests';
 import AdminDashboard from './pages/AdminDashboard';
 import TakeAppointment from './components/TakeAppointment'; // Import the TakeAppointment component
-
+import DownloadReport from './pages/DownloadReport'; // Import the DownloadReport component` 
 // Dummy Pages
 const Emergency = () => <div style={{ padding: '3rem', textAlign: 'center' }}><h2>Emergency Services</h2></div>;
 const NotFound = () => <div style={{ padding: '3rem', textAlign: 'center' }}><h2>404 - Page Not Found</h2></div>;
@@ -81,6 +81,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path ="take-appointment" element={<TakeAppointment />} />
+        <Route path="/download-report" element={<DownloadReport />} />
       </Routes>
     </>
   );

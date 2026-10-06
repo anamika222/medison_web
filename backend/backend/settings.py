@@ -29,7 +29,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'default-secret-key')
 DEBUG = True
 
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -86,8 +86,10 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': os.getenv('DB_NAME'),
         'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST', '127.0.0.1'),  # docker-compose 'db' service name
+        'PASSWORD': '',
+        #'PASSWORD': os.getenv('DB_PASSWORD'),
+        #'HOST': os.getenv('DB_HOST', '127.0.0.1'),  # docker-compose 'db' service name
+        'HOST': '127.0.0.1',
         'PORT': int(os.getenv('DB_PORT', 3306)),  # int() দিয়ে র্যাপ করুন
     }
 }

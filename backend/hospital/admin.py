@@ -8,7 +8,8 @@ from .models import (
     Doctor, 
     FeatureItem, 
     Department, 
-    DepartmentFeature, 
+    DepartmentFeature,
+    MedicalReport, 
     MedicalTest, 
     Service, 
     ServiceFeature, 
@@ -187,3 +188,30 @@ class BannerSlideAdmin(admin.ModelAdmin):
 @admin.register(HospitalStat)
 class HospitalStatAdmin(admin.ModelAdmin):
     list_display = ('title_en', 'title_bn', 'count')
+
+@admin.register(MedicalReport)
+class MedicalReportAdmin(admin.ModelAdmin):
+    list_display = (
+        'patient_id', 
+        'patient_name_en', 
+        'patient_name_bn', 
+        'mobile_number', 
+        'test_name_en', 
+        'status', 
+        'report_date'
+    )
+    list_filter = ('status', 'report_date')
+    search_fields = ('patient_id', 'mobile_number', 'patient_name_en', 'patient_name_bn')
+    readonly_fields = ('created_at', 'updated_at')
+    
+    fieldsets = (
+        ('Patient Information / রোগীর তথ্য', {
+            'fields': (('patient_id', 'mobile_number'), ('patient_name_en', 'patient_name_bn'))
+        }),
+        ('Test & Doctor Details / টেস্ট ও ডাক্তারের তথ্য', {
+            'fields': (('test_name_en', 'test_name_bn'), ('doctor_name_en', 'doctor_name_bn'), 'report_date')
+        }),
+        ('File & Status / ফাইল ও স্ট্যাটাস', {
+            'fields': ('status', 'pdf_file', 'created_at', 'updated_at')
+        }),
+    )

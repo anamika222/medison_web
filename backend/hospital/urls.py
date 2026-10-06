@@ -3,6 +3,7 @@ from .views import (
     AboutPageDataAPIView,
     BannerSlideListAPIView,
     DepartmentListAPIView,
+    SearchReportAPIView,
     SpecialtyListAPIView,
     DoctorListAPIView,
     DoctorDetailAPIView,
@@ -25,10 +26,12 @@ urlpatterns = [
     # Department & Specialty APIs
     path('departments/', DepartmentListAPIView.as_view(), name='department-list'),
     path('specialties/', SpecialtyListAPIView.as_view(), name='specialty-list'),
+   
+    path('search-report/', SearchReportAPIView.as_view(), name='search-report'),
 
     # Doctors & Appointments APIs
     path('doctors/', DoctorListAPIView.as_view(), name='doctor-list'),
-    path('doctors/<int:pk>/', DoctorDetailAPIView.as_view(), name='doctor-detail'),
+    path('doctors/<int:pdk>/', DoctorDetailAPIView.as_view(), name='doctor-detail'),
     path('doctors/schedule/', get_doctors_by_day, name='doctors-by-day'), # Extra 'api/' সরানো হয়েছে
     path('appointments/', AppointmentCreateAPIView.as_view(), name='appointment-create'),
     path('doctors/by-day/', get_doctors_by_day, name='doctors-by-day'),

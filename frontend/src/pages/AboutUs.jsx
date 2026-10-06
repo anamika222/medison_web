@@ -30,7 +30,7 @@ const AboutUs = () => {
 
   // ১. Django API থেকে ডাটা লোড করা
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/about-us-data/')
+    fetch('/api/about-us-data/')
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {

@@ -13,7 +13,8 @@ import {
     FaTimes,
     FaBullhorn,
     FaCalendarCheck,
-    FaChevronDown
+    FaChevronDown,
+    FaFileDownload
 } from 'react-icons/fa';
 
 const Header = () => {
@@ -45,7 +46,7 @@ const Header = () => {
     return (
         <header style={{ position: 'sticky', top: 0, zIndex: 1000, backgroundColor: '#fff', boxShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
 
-            {/* Dynamic Inline CSS Animation & Dropdown Style */}
+            {/* Dynamic CSS Animation, Mobile Responsiveness & Button Styling */}
             <style>{`
         @keyframes marqueeAnimation {
           0% { transform: translateX(100%); }
@@ -54,6 +55,7 @@ const Header = () => {
         .marquee-hover-pause:hover {
           animation-play-state: paused !important;
         }
+
         .appointment-box-btn {
           background-color: #0046AD !important;
           color: #ffffff !important;
@@ -66,29 +68,41 @@ const Header = () => {
           gap: 8px;
           box-shadow: 0 4px 12px rgba(0, 70, 173, 0.25);
           transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+          text-decoration: none;
+          white-space: nowrap;
         }
         .appointment-box-btn:hover {
           transform: translateY(-1px);
           box-shadow: 0 6px 15px rgba(0, 70, 173, 0.35);
         }
-        .appointment-box-btn::before, .appointment-box-btn::after {
-          display: none !important;
+
+        /* 🟢 Download Report Button Style */
+        .report-box-btn {
+          background-color: #10B981 !important;
+          color: #ffffff !important;
+          border: 2px solid #10B981;
+          padding: 0.53rem 1.2rem !important;
+          border-radius: 6px;
+          font-weight: 700 !important;
+          display: inline-flex !important;
+          align-items: center;
+          gap: 8px;
+          box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+          transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+          text-decoration: none;
+          white-space: nowrap;
+        }
+        .report-box-btn:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 6px 15px rgba(16, 185, 129, 0.35);
         }
 
-        /* 🔴 ড্রপডাউন এবং নির্দিষ্ট মেনু আইটেমের টপ বর্ডার ও সুডো এলিমেন্ট রিমুভ করার সিএসএস */
         .no-top-border,
         .no-top-border::before,
-        .no-top-border::after,
-        .no-top-border > *,
-        .no-top-border > *::before,
-        .no-top-border > *::after {
+        .no-top-border::after {
           border-top: none !important;
           outline: none !important;
-        }
-        .no-top-border::before,
-        .no-top-border::after {
           content: none !important;
-          display: none !important;
         }
 
         /* Dropdown Styles */
@@ -113,7 +127,6 @@ const Header = () => {
           font-size: 0.88rem;
           font-weight: 600;
           transition: all 0.2s ease;
-          border-top: none !important;
         }
         .dropdown-item:hover {
           background-color: #f1f5f9;
@@ -121,14 +134,53 @@ const Header = () => {
           padding-left: 1.5rem;
         }
 
-        /* Language switcher element specificity */
-        .nav-lang-switcher::before,
-        .nav-lang-switcher::after {
-          display: none !important;
-          content: none !important;
+        .mobile-toggle-btn {
+          display: none;
+          background: none;
+          border: none;
+          font-size: 1.5rem;
+          color: #0046AD;
+          cursor: pointer;
         }
-        .nav-lang-switcher {
-          border-top: none !important;
+
+        /* 📱 Mobile Responsive Styles */
+        @media (max-width: 992px) {
+          .mobile-toggle-btn {
+            display: block !important;
+          }
+          .nav-center-bar {
+            display: none;
+            width: 100%;
+            background: #fff;
+            padding: 1rem 0;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.05);
+          }
+          .nav-center-bar.mobile-open {
+            display: block !important;
+          }
+          .nav-center-list {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 1rem !important;
+            padding: 0 1.5rem !important;
+          }
+          .nav-center-list li {
+            width: 100%;
+          }
+          .dropdown-menu {
+            position: relative !important;
+            top: 0 !important;
+            box-shadow: none !important;
+            border-top: none !important;
+            padding-left: 1rem !important;
+          }
+          .appointment-box-btn, .report-box-btn {
+            width: 100%;
+            justify-content: center;
+          }
+          .marquee-container {
+            margin: 0.5rem 0 !important;
+          }
         }
       `}</style>
 
@@ -169,7 +221,7 @@ const Header = () => {
             </div>
 
             {/* Main Branding & Running Notice Center Bar */}
-            <div className="flex-between" style={{ padding: '0.8rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div className="flex-between" style={{ padding: '0.8rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap' }}>
 
                 {/* Left Side: Logo */}
                 <div className="flex-center" style={{ gap: '0.8rem', minWidth: '200px' }}>
@@ -195,9 +247,10 @@ const Header = () => {
 
                 {/* Center Side: Running Scrolling Notice */}
                 <div
+                    className="marquee-container"
                     style={{
                         flex: 1,
-                        margin: '0 2rem',
+                        margin: '0 1.5rem',
                         overflow: 'hidden',
                         whiteSpace: 'nowrap',
                         backgroundColor: '#F2F7FA',
@@ -225,11 +278,11 @@ const Header = () => {
                     </div>
                 </div>
 
-                {/* Right Side: Emergency Button */}
+                {/* Right Side: Language Switcher (Replaced Emergency Button) */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <Link to="/emergency" style={{ backgroundColor: '#E31B23', color: '#fff', textDecoration: 'none', padding: '0.6rem 1rem', borderRadius: '4px', fontWeight: 'bold', fontSize: '0.85rem' }}>
-                        ⚡ {t('emergency')}
-                    </Link>
+                    <div className="nav-lang-switcher" style={{ borderTop: 'none' }}>
+                        <LanguageSwitcher />
+                    </div>
 
                     <button className="mobile-toggle-btn" onClick={() => setIsMobileOpen(!isMobileOpen)}>
                         {isMobileOpen ? <FaTimes /> : <FaBars />}
@@ -239,93 +292,101 @@ const Header = () => {
 
             {/* Navigation Bar */}
             <nav className={`nav-center-bar ${isMobileOpen ? 'mobile-open' : ''}`}>
-                <ul className="nav-center-list" style={{ display: 'flex', alignItems: 'center' }}>
-                    <li className={location.pathname === '/' ? 'active' : ''} onClick={() => setIsMobileOpen(false)}>
-                        <Link to="/">{t('home')}</Link>
-                    </li>
+                <ul className="nav-center-list" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', listStyle: 'none', margin: 0, padding: '0 1.5rem' }}>
+                    
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flexWrap: 'wrap' }}>
+                        <li className={location.pathname === '/' ? 'active' : ''} onClick={() => setIsMobileOpen(false)}>
+                            <Link to="/">{t('home')}</Link>
+                        </li>
 
-                    {/* About Us Menu with Dropdown */}
-                    <li
-                        className={`no-top-border ${location.pathname.startsWith('/about') ? 'active' : ''}`}
-                        style={{ position: 'relative', cursor: 'pointer', borderTop: 'none' }}
-                        onMouseEnter={() => setAboutDropdownOpen(true)}
-                        onMouseLeave={() => setAboutDropdownOpen(false)}
-                    >
-                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', borderTop: 'none' }}>
-                            {t('aboutUs')} <FaChevronDown size={11} style={{ transition: '0.3s', transform: aboutDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
-                        </span>
+                        {/* About Us Menu with Dropdown */}
+                        <li
+                            className={`no-top-border ${location.pathname.startsWith('/about') ? 'active' : ''}`}
+                            style={{ position: 'relative', cursor: 'pointer', borderTop: 'none' }}
+                            onMouseEnter={() => setAboutDropdownOpen(true)}
+                            onMouseLeave={() => setAboutDropdownOpen(false)}
+                        >
+                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', borderTop: 'none' }}>
+                                {t('aboutUs')} <FaChevronDown size={11} style={{ transition: '0.3s', transform: aboutDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
+                            </span>
 
-                        {/* Dropdown Menu Items */}
-                        {aboutDropdownOpen && (
-                            <div className="dropdown-menu">
-                                {aboutDropdownItems.map((item, index) => (
-                                    <Link
-                                        key={index}
-                                        to={item.link}
-                                        className="dropdown-item"
-                                        onClick={() => {
-                                            setAboutDropdownOpen(false);
-                                            setIsMobileOpen(false);
-                                        }}
-                                    >
-                                        {item.label}
-                                    </Link>
-                                ))}
-                            </div>
-                        )}
-                    </li>
+                            {aboutDropdownOpen && (
+                                <div className="dropdown-menu">
+                                    {aboutDropdownItems.map((item, index) => (
+                                        <Link
+                                            key={index}
+                                            to={item.link}
+                                            className="dropdown-item"
+                                            onClick={() => {
+                                                setAboutDropdownOpen(false);
+                                                setIsMobileOpen(false);
+                                            }}
+                                        >
+                                            {item.label}
+                                        </Link>
+                                    ))}
+                                </div>
+                            )}
+                        </li>
 
-                    {/* Departments Dropdown */}
-                    <li
-                        className={`no-top-border ${location.pathname.startsWith('/departments') ? 'active' : ''}`}
-                        style={{ position: 'relative', cursor: 'pointer', borderTop: 'none' }}
-                        onMouseEnter={() => setDeptDropdownOpen(true)}
-                        onMouseLeave={() => setDeptDropdownOpen(false)}
-                    >
-                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', borderTop: 'none' }}>
-                            {t('departments')} <FaChevronDown size={11} style={{ transition: '0.3s', transform: deptDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
-                        </span>
+                        {/* Departments Dropdown */}
+                        <li
+                            className={`no-top-border ${location.pathname.startsWith('/departments') ? 'active' : ''}`}
+                            style={{ position: 'relative', cursor: 'pointer', borderTop: 'none' }}
+                            onMouseEnter={() => setDeptDropdownOpen(true)}
+                            onMouseLeave={() => setDeptDropdownOpen(false)}
+                        >
+                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', borderTop: 'none' }}>
+                                {t('departments')} <FaChevronDown size={11} style={{ transition: '0.3s', transform: deptDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
+                            </span>
 
-                        {deptDropdownOpen && (
-                            <div className="dropdown-menu">
-                                {departmentItems.map((item, index) => (
-                                    <Link
-                                        key={index}
-                                        to={item.link}
-                                        className="dropdown-item"
-                                        onClick={() => {
-                                            setDeptDropdownOpen(false);
-                                            setIsMobileOpen(false);
-                                        }}
-                                    >
-                                        {item.label}
-                                    </Link>
-                                ))}
-                            </div>
-                        )}
-                    </li>
+                            {deptDropdownOpen && (
+                                <div className="dropdown-menu">
+                                    {departmentItems.map((item, index) => (
+                                        <Link
+                                            key={index}
+                                            to={item.link}
+                                            className="dropdown-item"
+                                            onClick={() => {
+                                                setDeptDropdownOpen(false);
+                                                setIsMobileOpen(false);
+                                            }}
+                                        >
+                                            {item.label}
+                                        </Link>
+                                    ))}
+                                </div>
+                            )}
+                        </li>
 
-                    <li className={location.pathname === '/services' ? 'active' : ''} onClick={() => setIsMobileOpen(false)}>
-                        <Link to="/services">{t('services')}</Link>
-                    </li>
-                    <li className={location.pathname === '/doctors' ? 'active' : ''} onClick={() => setIsMobileOpen(false)}>
-                        <Link to="/doctors">{t('doctors')}</Link>
-                    </li>
-                    <li className={location.pathname === '/tests' ? 'active' : ''} onClick={() => setIsMobileOpen(false)}>
-                        <Link to="/tests">{t('tests')}</Link>
-                    </li>
+                        <li className={location.pathname === '/services' ? 'active' : ''} onClick={() => setIsMobileOpen(false)}>
+                            <Link to="/services">{t('services')}</Link>
+                        </li>
+                        <li className={location.pathname === '/doctors' ? 'active' : ''} onClick={() => setIsMobileOpen(false)}>
+                            <Link to="/doctors">{t('doctors')}</Link>
+                        </li>
+                        <li className={location.pathname === '/tests' ? 'active' : ''} onClick={() => setIsMobileOpen(false)}>
+                            <Link to="/tests">{t('tests')}</Link>
+                        </li>
+                    </div>
 
-                    {/* Always-Solid Styled Box Button for "Take an Appointment" */}
-                    <li style={{ marginLeft: '0.5rem' }} onClick={() => setIsMobileOpen(false)}>
-                        <Link to="/take-appointment" className="appointment-box-btn">
-                            <FaCalendarCheck /> {t('takeAppointment')}
-                        </Link>
-                    </li>
+                    {/* Right Side Buttons: Appointment & Download Report */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', flexWrap: 'wrap' }}>
+                        {/* Styled Box Button for "Take an Appointment" */}
+                        <li onClick={() => setIsMobileOpen(false)}>
+                            <Link to="/take-appointment" className="appointment-box-btn">
+                                <FaCalendarCheck /> {t('takeAppointment')}
+                            </Link>
+                        </li>
 
-                    {/* Language Switcher */}
-                    <li className="nav-lang-switcher" style={{ marginLeft: '8rem', display: 'flex', alignItems: 'center', borderTop: 'none' }}>
-                        <LanguageSwitcher />
-                    </li>
+                        {/* 🟢 Download Report Button (Bangla & English Fallback) */}
+                        <li onClick={() => setIsMobileOpen(false)}>
+                            <Link to="/download-report" className="report-box-btn">
+                                <FaFileDownload /> {t('downloadReport') || (i18n.language === 'bn' ? 'ডাউনলোড রিপোর্ট' : 'Download Report')}
+                            </Link>
+                        </li>
+                    </div>
+
                 </ul>
             </nav>
         </header>

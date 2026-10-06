@@ -5,6 +5,7 @@ from .models import (
     FeatureItem,
     Department,
     DepartmentFeature,
+    MedicalReport,
     Specialty,
     Doctor,
     Appointment,
@@ -168,3 +169,46 @@ class BannerSlideSerializer(serializers.ModelSerializer):
     class Meta:
         model = BannerSlide
         fields = '__all__'
+
+class MedicalReportSerializer(serializers.ModelSerializer):
+    patient_name = serializers.SerializerMethodField()
+    test_name = serializers.SerializerMethodField()
+    doctor_name = serializers.SerializerMethodField()
+    status_text = serializers.SerializerMethodField()
+
+    class Meta:
+        model = MedicalReport
+        fields = [
+            'id',
+            'patient_id',
+            'mobile_number',
+            'patient_name',
+            'test_name',
+            'doctor_name',
+            'status',
+            'status_text',
+            'pdf_file',
+            'report_date'
+        ]
+
+    def get_lang(self):
+        # Request headers বা query param থেকে ভাষা নির্ণয়
+        request = self.context.get('request')
+        if request:
+            return request.headers.get('Accept-Language', 'en') or request.GET.get('lang', 'en')
+        return 'en'
+
+    def get_patient_name(self, obj):
+        return obj.patient_name_bn if 'bn' in self.get_lang() and obj.patient_name_bn else obj.patient_name_en
+
+    def get_test_name(self, obj):
+        return obj.test_name_bn if 'bn' in self.get_lang() and obj.test_name_bn else obj.test_name_en
+
+    def get_doctor_name(self, obj):
+        return obj.doctor_name_bn if 'bn' in self.get_lang() and obj.doctor_name_bn else obj.doctor_name_en
+
+    def get_status_text(self, obj):
+        if 'bn' in self.get_lang():
+            status_map = {'Pending': 'প্রক্রিয়াধীন', 'Ready': 'প্রস্তুত আছে', 'Delivered': 'প্রদান করা হয়েছে'}
+            return status_map.get(obj.status, obj.status)
+        return obj.status

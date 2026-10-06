@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import CASCADE
+import uuid
 
 
 class AboutUsOverview(models.Model):
@@ -278,3 +279,42 @@ class BannerSlide(models.Model):
 
     def __str__(self):
         return f"Slide {self.id}"
+
+class MedicalReport(models.Model):
+    STATUS_CHOICES = [
+        ('Pending', 'Pending / প্রক্রিয়াধীন'),
+        ('Ready', 'Ready / প্রস্তুত'),
+        ('Delivered', 'Delivered / প্রদান করা হয়েছে'),
+    ]
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    patient_id = models.CharField(max_length=50, db_index=True, verbose_name="Patient ID / রোগীর আইডি")
+    mobile_number = models.CharField(max_length=15, db_index=True, verbose_name="Mobile Number / মোবাইল নম্বর")
+    
+    # Patient Name (English & Bangla)
+    patient_name_en = models.CharField(max_length=150, verbose_name="Patient Name (English)")
+    patient_name_bn = models.CharField(max_length=150, verbose_name="রোগীর নাম (বাংলা)")
+    
+    # Test Name (English & Bangla)
+    test_name_en = models.CharField(max_length=255, verbose_name="Test Name (English)")
+    test_name_bn = models.CharField(max_length=255, verbose_name="পরীক্ষার নাম (বাংলা)")
+    
+    # Referred Doctor (English & Bangla)
+    doctor_name_en = models.CharField(max_length=200, blank=True, null=True, verbose_name="Doctor Name (English)")
+    doctor_name_bn = models.CharField(max_length=200, blank=True, null=True, verbose_name="ডাক্তারের নাম (বাংলা)")
+    
+    # Status & File
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Ready', verbose_name="Status / অবস্থা")
+    pdf_file = models.FileField(upload_to='reports/pdf/', verbose_name="PDF File / রিপোর্ট ফাইল")
+    
+    report_date = models.DateField(verbose_name="Report Date / পরীক্ষার তারিখ")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Medical Report / মেডিকেল রিপোর্ট"
+        verbose_name_plural = "Medical Reports / মেডিকেল রিপোর্টসমূহ"
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.patient_id} - {self.patient_name_en}"

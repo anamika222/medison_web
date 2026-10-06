@@ -13,6 +13,7 @@ from .models import (
     AboutUsOverview,
     BannerSlide,
     Department,
+    MedicalReport,
     Specialty,
     Doctor,
     Appointment,
@@ -26,6 +27,7 @@ from .serializers import (
     AboutUsOverviewSerializer,
     BannerSlideSerializer,
     DepartmentSerializer,
+    MedicalReportSerializer,
     SpecialtySerializer,
     DoctorSerializer,
     AppointmentSerializer,
@@ -343,3 +345,27 @@ class AppointmentCreateAPIView(generics.CreateAPIView):
             "booking_id": booking_id,
             "data": serializer.data
         }, status=status.HTTP_201_CREATED)
+
+class SearchReportAPIView(APIView):
+    def get(self, request):
+        query = request.GET.get('query', '').strip()
+
+        if not query:
+            return Response(
+                {"error_en": "Patient ID or Mobile Number is required", "error_bn": "পেশেন্ট আইডি বা মোবাইল নম্বর আবশ্যক"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Patient ID অথবা Mobile Number দুটি ফিল্ডেই অনুসন্ধান
+        reports = MedicalReport.objects.filter(
+            Q(patient_id__iexact=query) | Q(mobile_number__iexact=query)
+        )
+
+        if not reports.exists():
+            return Response(
+                {"error_en": "No report found with this ID or Mobile Number", "error_bn": "এই আইডি বা মোবাইল নম্বরে কোনো রিপোর্ট পাওয়া যায়নি"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = MedicalReportSerializer(reports, many=True, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
