@@ -23,7 +23,7 @@ const DownloadReport = () => {
     // Dynamic API Base URL Configuration (Ensure no trailing slash)
     const rawBaseUrl = process.env.REACT_APP_API_URL || '/api';
     const API_BASE_URL = rawBaseUrl.replace(/\/+$/, '');
-
+    const MEDIA_BASE = (process.env.REACT_APP_MEDIA_URL || '').replace(/\/+$/, '');
     // Live backend API call handleSearch
     const handleSearch = async (e) => {
         e.preventDefault();
