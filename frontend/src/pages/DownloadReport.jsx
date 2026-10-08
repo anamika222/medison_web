@@ -21,7 +21,7 @@ const DownloadReport = () => {
     const [error, setError] = useState('');
 
     // Dynamic API Base URL Configuration (Ensure no trailing slash)
-    const rawBaseUrl = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000';
+    const rawBaseUrl = process.env.REACT_APP_API_URL || '/api';
     const API_BASE_URL = rawBaseUrl.replace(/\/+$/, '');
 
     // Live backend API call handleSearch
@@ -78,7 +78,7 @@ const DownloadReport = () => {
             return filePath;
         }
         const formattedPath = filePath.startsWith('/') ? filePath : `/${filePath}`;
-        return `${API_BASE_URL}${formattedPath}`;
+        return `${MEDIA_BASE}${formattedPath}`;
     };
 
     return (
