@@ -87,9 +87,9 @@ DATABASES = {
         'NAME': os.getenv('DB_NAME'),
         'USER': os.getenv('DB_USER'),
         'PASSWORD': '',
-        #'PASSWORD': os.getenv('DB_PASSWORD'),
-        #'HOST': os.getenv('DB_HOST', '127.0.0.1'),  # docker-compose 'db' service name
-        'HOST': '127.0.0.1',
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST', '127.0.0.1'),  # docker-compose 'db' service name
+        #'HOST': '127.0.0.1',
         'PORT': int(os.getenv('DB_PORT', 3306)),  # int() দিয়ে র্যাপ করুন
     }
 }
