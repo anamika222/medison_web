@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Hero from '../components/Hero';
 import DoctorScheduleWidget from './DoctorScheduleWidget';
+import Footer from '../components/Footer';
 import * as FaIcons from 'react-icons/fa';
 import {
   FaHospital,
@@ -601,7 +602,9 @@ const Home = () => {
                           বুক করুন
                         </Link>
                       </div>
+                      
                     </div>
+                    
                   );
                 })}
               </div>
@@ -609,6 +612,10 @@ const Home = () => {
           </div>
         </section>
       )}
+      {/* 8. Footer Section */}
+      <div className="w-full relative z-10">
+        <Footer />
+      </div>
     </div>
   );
 };

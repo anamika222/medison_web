@@ -33,7 +33,7 @@ const Hero = () => {
 
   useEffect(() => {
     let isMounted = true;
-    axios.get(`${API_BASE_URL}/api/banner-slides/`) 
+    axios.get(`${API_BASE_URL}/banner-slides/`) 
       .then(res => {
         if (isMounted && res.data && res.data.length > 0) {
           setSlides(res.data);
