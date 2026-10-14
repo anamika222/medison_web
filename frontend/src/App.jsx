@@ -14,6 +14,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import TakeAppointment from './components/TakeAppointment'; // Import the TakeAppointment component
 import DownloadReport from './pages/DownloadReport'; // Import the DownloadReport component` 
 import Footer from './components/Footer'; // Import the Footer component
+
 // Dummy Pages
 const Emergency = () => <div style={{ padding: '3rem', textAlign: 'center' }}><h2>Emergency Services</h2></div>;
 const NotFound = () => <div style={{ padding: '3rem', textAlign: 'center' }}><h2>404 - Page Not Found</h2></div>;

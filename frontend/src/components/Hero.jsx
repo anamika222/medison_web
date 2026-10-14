@@ -11,8 +11,9 @@ import {
   FaChevronRight 
 } from 'react-icons/fa';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000';
-
+const API_URL = process.env.REACT_APP_API_URL || '/api';
+// image-er jonno: "/api" bad diye server root
+const MEDIA_BASE = API_URL.replace(/\/api\/?$/, '');
 const DEFAULT_SLIDES = [
   { id: 1, image: "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?q=80&w=1600&auto=format&fit=crop" },
   { id: 2, image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=1600&auto=format&fit=crop" },
