@@ -27,7 +27,7 @@ import {
   FaGlobe
 } from 'react-icons/fa';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL;
+const API_BASE_URL = process.env.REACT_APP_API_URL || "/api"; // Default to "/api" if not set in environment variables
 
 const INITIAL_FORM_STATE = { name: '', phone: '', date: '', time: '' };
 
