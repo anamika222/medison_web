@@ -12,8 +12,8 @@ import {
 } from 'react-icons/fa';
 
 const API_URL = process.env.REACT_APP_API_URL || '/api';
-// image-er jonno: "/api" bad diye server root
-const MEDIA_BASE = API_URL.replace(/\/api\/?$/, '');
+const MEDIA_URL = process.env.REACT_APP_MEDIA_URL || '';
+
 const DEFAULT_SLIDES = [
   { id: 1, image: "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?q=80&w=1600&auto=format&fit=crop" },
   { id: 2, image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=1600&auto=format&fit=crop" },
@@ -34,7 +34,7 @@ const Hero = () => {
 
   useEffect(() => {
     let isMounted = true;
-    axios.get(`${API_BASE_URL}/banner-slides/`) 
+    axios.get(`${API_URL}/banner-slides/`) 
       .then(res => {
         if (isMounted && res.data && res.data.length > 0) {
           setSlides(res.data);
@@ -81,7 +81,7 @@ const Hero = () => {
         {slides.map((slide, index) => {
           const imageUrl = slide.image?.startsWith('http') 
             ? slide.image 
-            : `${API_BASE_URL}${slide.image}`;
+            : `${MEDIA_URL}${slide.image}`;
 
           return (
             <div
@@ -185,7 +185,7 @@ const Hero = () => {
           width: 100%;
           height: 100%;
           background-size: cover;
-          background-position: center;
+          background-position: center top;
           opacity: 0;
           transform: scale(1);
           transition: opacity 1.2s ease-in-out, transform 6s ease-out;
@@ -195,7 +195,7 @@ const Hero = () => {
 
         .slide-bg.active {
           opacity: 1;
-          transform: scale(1.05);
+          transform: scale(1);
           z-index: 1;
         }
 
