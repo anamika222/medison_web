@@ -99,7 +99,7 @@ const Footer = () => {
               boxShadow: '0 10px 15px -3px rgba(37, 99, 235, 0.3)'
             }}
           >
-            <FaPhoneAlt size={14} /> Emergency: +880 1791-443697
+            <FaPhoneAlt size={14} /> Emergency: 01334-931870, 01334-931871
           </a>
         </div>
 
