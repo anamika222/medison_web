@@ -84,7 +84,7 @@ const Footer = () => {
             </div>
           </div>
           <a 
-            href="tel:+8801791443697" 
+            href="tel:01334-931870, 01334-931871" 
             style={{
               background: 'linear-gradient(90deg, #2563EB 0%, #4F46E5 100%)',
               color: '#ffffff',
